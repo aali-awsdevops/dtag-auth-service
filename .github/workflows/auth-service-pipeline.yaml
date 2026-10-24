@@ -10,12 +10,14 @@ env:
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKERHUB_REGISTRY: "mohammadaszadali"
   SERVICE_NAME: "auth-service"
+  
 permissions:
     contents: read
     id-token: write
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: checkout_code
         uses: actions/checkout@v4
