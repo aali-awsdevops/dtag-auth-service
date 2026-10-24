@@ -58,4 +58,4 @@ jobs:
           git config --global user.email "cluesofdevops@gmail.com"
           git add dtag-auth-service/deployment.yaml
           git commit -m "Update auth-service image tag to $(git rev-parse --short HEAD)"
-          git push origin main  
+          git push origin HEAD
