@@ -28,10 +28,10 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: dotnet restore
-        run: dotnet restore ./AuthorizationService
+        run: dotnet restore
       - name: dotnet publish
         run: dotnet publish ./AuthorizationService -c Release -o ./publish
-       - name: Build Docker Image
+      - name: Build Docker Image
         run: docker build -t ${{ env.SERVICE_NAME }}:$(git rev-parse --short HEAD) .
       - name: Tag Docker Image
         run: docker tag ${{ env.SERVICE_NAME }}:$(git rev-parse --short HEAD) ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:$(git rev-parse --short HEAD)
