@@ -28,7 +28,7 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: dotnet restore
-        run: dotnet restore
+        run: dotnet restore ./AuthorizationService
       - name: dotnet publish
         run: dotnet publish ./AuthorizationService -c Release -o ./publish
       - name: Build Docker Image
