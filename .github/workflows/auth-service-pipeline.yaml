@@ -42,5 +42,20 @@ jobs:
         run: echo ${{ env.DOCKERHUB_PASSWORD }} | docker login -u ${{ env.DOCKERHUB_USERNAME }} --password-stdin        
       - name: Push Docker Image
         run: docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ env.SERVICE_NAME }}:$(git rev-parse --short HEAD)
-       
-
+      - name: checkout gitops repo
+        uses: actions/checkout@v4
+        with:
+          repository: aali-awsdevops/dtag-argocd-apps
+          token: ${{ secrets.GIT_TOKEN }}
+          path: dtag-argocd-apps
+      - name: update image tag in deployment.yaml
+        run: |
+          sed -i "s|image: mohammadaszadali/auth-service:.*|image: mohammadaszadali/auth-service:$(git rev-parse --short HEAD)|" dtag-argocd-apps/dtag-auth-service/deployment.yaml
+      - name: commit and push changes to gitops repo
+        run: |
+          cd dtag-argocd-apps
+          git config --global user.name "github-actions"
+          git config --global user.email "cluesofdevops@gmail.com"
+          git add dtag-auth-service/deployment.yaml
+          git commit -m "Update auth-service image tag to $(git rev-parse --short HEAD)"
+          git push origin main  
